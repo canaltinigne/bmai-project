@@ -16,11 +16,11 @@ class HMP_Dataset(Dataset):
     def __init__(self, mode, res=128):
         
         if mode == 'train':
-            self.df = pd.read_csv('TRAINING_SET.csv')
+            self.df = pd.read_csv('csvs/TRAINING_SET.csv')
         elif mode == 'val':
-            self.df = pd.read_csv('VAL_SET.csv')
+            self.df = pd.read_csv('csvs/VAL_SET.csv')
         elif mode == 'test':
-            self.df = pd.read_csv('TEST_SET.csv')
+            self.df = pd.read_csv('csvs/TEST_SET.csv')
             
         self.to_tensor = transforms.ToTensor()
         self.res = res
@@ -109,11 +109,11 @@ class HMP_Lying_Dataset(Dataset):
     def __init__(self, mode, res=128, rotate=True, upper=False):
         
         if mode == 'train':
-            self.df = pd.read_csv('LYING_TRAIN_SET.csv', converters={'ChildID': lambda x: str(x)})
+            self.df = pd.read_csv('csvs/LYING_TRAIN_SET.csv', converters={'ChildID': lambda x: str(x)})
         elif mode == 'val':
-            self.df = pd.read_csv('LYING_VAL_SET.csv', converters={'ChildID': lambda x: str(x)})
+            self.df = pd.read_csv('csvs/LYING_VAL_SET.csv', converters={'ChildID': lambda x: str(x)})
         elif mode == 'test':
-            self.df = pd.read_csv('LYING_TEST_SET.csv', converters={'ChildID': lambda x: str(x)})
+            self.df = pd.read_csv('csvs/LYING_TEST_SET.csv', converters={'ChildID': lambda x: str(x)})
             
         self.to_tensor = transforms.ToTensor()
         self.res = res
@@ -235,11 +235,11 @@ class ShallowDataset(Dataset):
     def __init__(self, mode):
         
         if mode == 'train':
-            self.df = pd.read_csv('TRAINING_SET.csv')
+            self.df = pd.read_csv('csvs/TRAINING_SET.csv')
         elif mode == 'val':
-            self.df = pd.read_csv('VAL_SET.csv')
+            self.df = pd.read_csv('csvs/VAL_SET.csv')
         elif mode == 'test':
-            self.df = pd.read_csv('TEST_SET.csv')
+            self.df = pd.read_csv('csvs/TEST_SET.csv')
             
         self.to_tensor = transforms.ToTensor()
         self.HEIGHT_MEAN = 91.90
