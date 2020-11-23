@@ -1,9 +1,62 @@
+"""
+U-Net Model for Height, Weight, Mask, Tennis Ball and Joint Prediction.
+@author: Can Altinigne
+
+This script includes a modified version U-Net Architecture for 
+BMAI Project.
+
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 
+class DownBlock(nn.Module):
+    
+    """
+    Downsampling block for U-Net Architecture.
+    
+    2 x (2D Convolution + ReLU)
+    
+    Args:
+        in_ch: Input channels.
+        out_ch: Output channels.
+    
+    Returns:
+        UpBlock(16,32)(torch.Tensor(1,16,24,24)) -> torch.Tensor(1,32,24,24)
+        
+    """
+    
+    def __init__(self, in_ch, out_ch):
+        super(DownBlock, self).__init__()
+                
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_ch, out_ch, 3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(out_ch, out_ch, 3, padding=1),
+            nn.ReLU()
+        )
+        
+    def forward(self, x):
+        return self.conv(x)
+
+    
 class UpBlock(nn.Module):
+    
+    """
+    Upsampling block for U-Net Architecture.
+    
+    UpSampling -> 2D Convolution -> ReLU -> Concatenation 2 x (2D Convolution + ReLU)
+    
+    Args:
+        in_ch: Input channels.
+        out_ch: Output channels.
+    
+    Returns:
+        UpBlock(32,16)(torch.Tensor(1,32,24,24)) -> torch.Tensor(1,16,48,48)
+        
+    """
     
     def __init__(self, in_ch, out_ch, mode='bilinear'):
         super(UpBlock, self).__init__()
@@ -30,6 +83,19 @@ class UpBlock(nn.Module):
     
     
 class FinalBlock(nn.Module):
+    
+    """
+    Final block for U-Net Architecture.
+    
+    This block includes the mask output, tennis ball mask output,
+    joint output, height and weight outputs.
+    
+    Args:
+        in_ch: Input channels.
+        pool_size: Pooling size set implicitly.
+        h_channel: Number of neurons in the hidden layer, set implicitly.
+        
+    """
     
     def __init__(self, in_ch, pool_size, h_channel):
         super(FinalBlock, self).__init__()
@@ -82,24 +148,20 @@ class FinalBlock(nn.Module):
         
         return mask, joint, height, weight, tennis_mask
 
-    
-class DownBlock(nn.Module):
-    
-    def __init__(self, in_ch, out_ch):
-        super(DownBlock, self).__init__()
-                
-        self.conv = nn.Sequential(
-            nn.Conv2d(in_ch, out_ch, 3, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(out_ch, out_ch, 3, padding=1),
-            nn.ReLU()
-        )
-        
-    def forward(self, x):
-        return self.conv(x)
 
-    
 class UNet(nn.Module):
+    
+    """
+    U-Net Architecture.
+    
+    U-Net model which includes the blocks defined above.
+    
+    Args:
+        min_neuron: Minimum number of neurons in the first convolution layer.
+        pool_size: Pooling size set implicitly.
+        h_channel: Number of neurons in the hidden layer, set implicitly.
+        
+    """
 
     def __init__(self, min_neuron, pool_size=32, h_ch=32):
         super(UNet, self).__init__()
@@ -142,6 +204,16 @@ class UNet(nn.Module):
     
 
 class ShallowNet(nn.Module):
+    
+    """
+    Shallow Network Model
+    
+    This model is built for Shallow Network experiments.
+    
+    It takes input as joint and body part masks in different
+    channels.
+        
+    """
     
     def __init__(self):
         super(ShallowNet, self).__init__()

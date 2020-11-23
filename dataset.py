@@ -1,3 +1,12 @@
+"""
+Dataset Preparer Script.
+@author: Can Altinigne
+
+This script includes Dataset classes that include Lying, Standing
+and the dataset for Shallow Network experiments.
+
+"""
+
 import numpy as np 
 import cv2
 import torch
@@ -12,6 +21,15 @@ from scipy.ndimage import gaussian_filter
 
 
 class HMP_Dataset(Dataset):
+    
+    """
+    HMP Standing Kids Dataset
+        
+    Args:
+        mode: Training / Validation / Test mode.
+        res: Edge size of an image (equal size edges).
+
+    """
 
     def __init__(self, mode, res=128):
         
@@ -105,6 +123,17 @@ class HMP_Dataset(Dataset):
     
 
 class HMP_Lying_Dataset(Dataset):
+    
+    """
+    HMP Lying Kids Dataset
+        
+    Args:
+        mode: Training / Validation / Test mode.
+        res: Edge size of an image (equal size edges).
+        rotate: Rotate images with different orientations from UP.
+        upper: Only consider upper body parts.
+
+    """
 
     def __init__(self, mode, res=128, rotate=True, upper=False):
         
@@ -232,6 +261,14 @@ class HMP_Lying_Dataset(Dataset):
 
 class ShallowDataset(Dataset):
     
+    """
+    Dataset for Shallow Network Experiments
+        
+    Args:
+        mode: Training / Validation / Test mode.
+
+    """
+    
     def __init__(self, mode):
         
         if mode == 'train':
@@ -338,5 +375,3 @@ class ShallowDataset(Dataset):
             'height': height-self.HEIGHT_MEAN, 
             'weight': weight-self.WEIGHT_MEAN
         }
-
-    
