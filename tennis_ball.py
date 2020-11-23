@@ -1,3 +1,12 @@
+"""
+Tennis Ball Segmentation Script
+@author: Can Altinigne
+
+This script includes the functions to segment the tennis ball in
+the images. This script is implemented by EPFL-LTS5 Team.
+            
+"""
+
 from cv2 import connectedComponentsWithStats, findContours, morphologyEx, Canny
 from human_attributes_estimation.utils.utils import resize, read_imgfile
 import matplotlib.pyplot as plt
