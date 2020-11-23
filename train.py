@@ -1,3 +1,27 @@
+"""
+Training Script for BmAI Project
+@author: Can Altinigne
+
+This script is the main program that trains BmAI models.
+Please carefully check the commented lines. I might have
+commented some losses as I did not use them in the training
+in some experiments. In order to run the training with other 
+losses, please consider uncommenting those lines.
+
+    - Parameters:
+        - e: Number of epochs
+        - l: Learning rate
+        - ls: Loss Function for Height and Weight Estimation, Please 
+              check the if section on args.loss to see supported loss
+              functions.
+        - u: Consider only upper body parts for Lying dataset.
+        - m: Number of neurons in the first convolution layer of U-Net.   
+        - bs: Batch size.
+        - pr: Initialize the model with pretrained weights from our paper.
+        - d: Dataset name, ['lying', 'standing', 'shallow'].
+
+"""
+
 import numpy as np 
 import os
 import torch
@@ -14,10 +38,8 @@ from glob import glob
 from torch.nn.parameter import Parameter
 
 """
-Training Height Estimation Network
-
 Example Run:
-CUDA_VISIBLE_DEVICES=1 python train.py -e 50 -l 1e-3 -ls mse -d [DIRECTORY OF TRAINING CSV FILE] -r 0
+CUDA_VISIBLE_DEVICES=1 python train.py -e 50 -l 1e-3 -ls mse -d [DATASET NAME] -pr 0
 """
     
 if __name__ == "__main__":

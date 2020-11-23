@@ -1,9 +1,33 @@
+"""
+U-Net Model for Weight Estimation
+@author: Can Altinigne
+
+This script includes the same version of Weight Estimation Network
+in our paper. As we used the weights from the network in our paper
+we need the U-Net Architecture.
+
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 
 class UpBlock(nn.Module):
+    
+    """
+    Upsampling block for U-Net Architecture.
+    
+    UpSampling -> 2D Convolution -> ReLU -> Concatenation 2 x (2D Convolution + ReLU)
+    
+    Args:
+        in_ch: Input channels.
+        out_ch: Output channels.
+    
+    Returns:
+        UpBlock(32,16)(torch.Tensor(1,32,24,24)) -> torch.Tensor(1,16,48,48)
+        
+    """
     
     def __init__(self, in_ch, out_ch, mode='bilinear'):
         super(UpBlock, self).__init__()
@@ -29,6 +53,19 @@ class UpBlock(nn.Module):
         return x_up
     
 class FinalBlock(nn.Module):
+    
+    """
+    Final block for U-Net Architecture.
+    
+    This block includes the mask output, joint output, height (redundant)
+    and weight outputs.
+    
+    Args:
+        in_ch: Input channels.
+        pool_size: Pooling size set implicitly.
+        h_channel: Number of neurons in the hidden layer, set implicitly.
+        
+    """
     
     def __init__(self, in_ch, pool_size, h_channel):
         super(FinalBlock, self).__init__()
@@ -82,6 +119,20 @@ class FinalBlock(nn.Module):
     
 class DownBlock(nn.Module):
     
+    """
+    Downsampling block for U-Net Architecture.
+    
+    2 x (2D Convolution + ReLU)
+    
+    Args:
+        in_ch: Input channels.
+        out_ch: Output channels.
+    
+    Returns:
+        UpBlock(16,32)(torch.Tensor(1,16,24,24)) -> torch.Tensor(1,32,24,24)
+        
+    """
+    
     def __init__(self, in_ch, out_ch):
         super(DownBlock, self).__init__()
                 
@@ -97,6 +148,18 @@ class DownBlock(nn.Module):
 
     
 class UNet(nn.Module):
+    
+    """
+    U-Net Architecture.
+    
+    U-Net model which includes the blocks defined above.
+    
+    Args:
+        min_neuron: Minimum number of neurons in the first convolution layer.
+        pool_size: Pooling size set implicitly.
+        h_channel: Number of neurons in the hidden layer, set implicitly.
+        
+    """
 
     def __init__(self, min_neuron, pool_size=32, h_ch=32):
         super(UNet, self).__init__()

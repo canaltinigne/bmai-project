@@ -1,6 +1,27 @@
+"""
+Experimental Trainer Functions
+@author: Can Altinigne
 
+I implemented these functions for more modular codebase.
+These functions are still experimental, but you can integrate
+train and evaluate function in train.py to get a more modular
+training code.
+
+"""
 
 def train(net, train_loader):
+    
+    """
+    Train function.
+        
+    Args:
+        net: Network object.
+        train_loader: DataLoader object for the training set.
+    
+    Returns:
+        Not defined yet.
+        
+    """
     
     net.train()
     
@@ -51,6 +72,18 @@ def train(net, train_loader):
 
 
 def validate(net, valid_loader):
+    
+    """
+    Validation function.
+        
+    Args:
+        net: Network object.
+        train_loader: DataLoader object for the validation set.
+    
+    Returns:
+        Not defined yet.
+        
+    """
     
     net.eval()
         
