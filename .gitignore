@@ -2,7 +2,6 @@ lying_kids_features/
 models/
 output_maps
 human_attributes_estimation
-Evaluation.ipynb
 Playground.ipynb
 manual_baby_masks/
 project-bodypix
